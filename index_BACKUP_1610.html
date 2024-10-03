@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GeoJSON Visualization with Centered InfoWindow Text</title>
+    <style>
+        #map { height: 100vh; width: 100%; }
+        /* Custom styles for InfoWindow */
+        .gm-style .gm-style-iw-c {
+            padding: 12px !important;
+            border-radius: 4px !important;
+        }
+        .gm-style .gm-style-iw-t::after {
+            display: none;
+        }
+        .gm-style .gm-style-iw-d {
+            overflow: hidden !important;
+        }
+        .gm-ui-hover-effect {
+            display: none !important;
+        }
+        .info-window-content {
+            color: #333;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: top;
+            justify-content: center;
+            height: 100%;
+            min-height: 20px; /* Adjust this value as needed */
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwaRblgM3CzCrB_7B9tP5wSNQQqpXc_WU"></script>
+    <script>
+        var map;
+        var geojson;
+        var infoWindow;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+<<<<<<< .merge_file_VL2hIy
+                zoom: 6,
+=======
+                zoom: 4,
+>>>>>>> .merge_file_B3nnXY
+                center: { lat: 39.5, lng: -89.25 } // Central Illinois
+            });
+
+            infoWindow = new google.maps.InfoWindow({
+                disableAutoPan: true
+            });
+
+            fetch('data/16ChineseAlone.geojson')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    geojson = data;
+                    map.data.addGeoJson(geojson);
+                    map.data.setStyle(styleFeature);
+                    
+                    map.data.addListener('mouseover', function(event) {
+                        map.data.revertStyle();
+                        map.data.overrideStyle(event.feature, {fillOpacity: 0.8});
+
+                        var placeName = event.feature.getProperty('NAME');
+                        var population = event.feature.getProperty('population');
+                        infoWindow.setContent('<div class="info-window-content">' + placeName + ': ' + population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</div>');
+                        infoWindow.setPosition(event.latLng);
+                        infoWindow.open(map);
+                    });
+
+                    map.data.addListener('mouseout', function(event) {
+                        map.data.revertStyle();
+                        infoWindow.close();
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to load GeoJSON file. Check console for details.');
+                });
+        }
+
+        function styleFeature(feature) {
+            var population = feature.getProperty('population');
+            var color = getColor(population);
+            return {
+                fillColor: color,
+                strokeColor: color,
+                strokeWeight: 1,
+                fillOpacity: 0.5
+            };
+        }
+
+        function getColor(value) {
+            var minValue = 98;
+            var maxValue = 182836;
+            var minColor = [0, 0, 255];  // blue
+            var maxColor = [255, 0, 0];  // red
+            
+            var fraction = (Math.min(Math.max(value, minValue), maxValue) - minValue) / (maxValue - minValue);
+            
+            var color = minColor.map((start, i) => {
+                return Math.round(start + fraction * (maxColor[i] - start));
+            });
+            
+            return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+        }
+
+        window.onload = initMap;
+    </script>
+</body>
+</html>
