@@ -13,24 +13,24 @@ Note: If you are looking at broader race like Asian, instead of individual count
 
 2. TIGER/Line Shapefiles (Geo Data)
 
-Because "B05006 Place of Birth for the Foreign-Born Population" is indexed by GEO_ID column, we need to join this with the Census Bureau's [TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.2021.html#list-tab-790442341). The shape files on the server are broken into small files, I extracted all the shp files, loaded them into QGIS program and exported the entire US Census County Divisions data into one file, you can download that [here](/data/mergedgeo.7z).  The file is quite large (800MB) and will need a computer with enough CPU and RAM to handle. 
+Because "B05006 Place of Birth for the Foreign-Born Population" is indexed by GEO_ID column, we need to join this with the Census Bureau's [TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.2021.html#list-tab-790442341). The shape files on the server are broken into small files, I extracted all the shp files, loaded them into QGIS program and exported the entire US Census County Divisions data into one file, you can download that [here](data/merged2021.7z).  Unzipped, the file is quite large (800MB) and will need a computer with enough CPU and RAM to handle. 
 
 3. Generate Country based Diaspora Data (Diaspora data)
 
   * This intrim step involvoes opening the B050056Raw.csv file in Excel
   * Filter by POPGROUP column, which is Race/Ethnic Group, e.g. a value of 16 means "Chinese alone"
-  * Export that as a CSV file [example](data/16ChineseAlone.csv)
+  * Export that as a CSV file [example](data/Japanese.csv)
 
 4. Combine country based diaspora data with Geo Data
 
 Because GeoJson data (what we obtained in step 2) is what Google Map works with, we need to add the country and population data. Since we already separated the Diaspora data by country, we can generate now country based GeoJson data to be fed into Google Map.
 
 Claude.ai helped me write a Python script to match/filter the country based diapora data with the GeoJson data, it is [here](data/importjson.py)
-The output is something like this [example](data/16ChineseAlone.geojson)
+The output is something like this [example](data/Japanese.geojson)
 
 5. Display country based diaspora data with Google maps
 
-Claude.ai also helped me to plot the geoJson file generated in the last step in Google Maps, with ability to mouse over individual blocks and see the : [example](map.html)
+Claude.ai also helped me to plot the geoJson file generated in the last step in Google Maps, with ability to mouse over individual blocks and see the : [example](index.html)
 
 
 
