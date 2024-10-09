@@ -30,7 +30,8 @@ The output is something like this [example](data/Japanese.geojson)
 
 5. Display country based diaspora data with Google maps
 
-Claude.ai also helped me to plot the geoJson file generated in the last step in Google Maps, with ability to mouse over individual blocks and see the : [running example](https://rdai.github.io/DiasporaData/) [code](index.html)
+Claude.ai also helped me to plot the geoJson file generated in the last step in Google Maps, with ability to mouse over individual blocks and see the : [running example](https://rdai.github.io/DiasporaData/) 
+[code](index.html)
 
 
 
